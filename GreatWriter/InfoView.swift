@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct InfoView: View {
-    
+    var titleOn: Bool
+
     private let kb = WorkKnowledgeBase()
-    
     @State private var query = ""
 
     var body: some View {
@@ -25,7 +25,6 @@ struct InfoView: View {
                     }
                 }
 
-                // Экранизации — в самом низу списка
                 let films = filteredAdaptations(kb.adaptations)
                 if !films.isEmpty {
                     Section("Экранизации") {
@@ -35,7 +34,8 @@ struct InfoView: View {
                     }
                 }
             }
-            .navigationTitle("В. П. Астафьев")
+            // Пустая строка скрывает текст заголовка, панель навигации остаётся
+            .navigationTitle(titleOn ? "В. П. Астафьев" : "")
             .searchable(text: $query, prompt: "Поиск по названию")
         }
     }
@@ -72,4 +72,8 @@ struct AdaptationRow: View {
         }
         .padding(.vertical, 4)
     }
+}
+
+#Preview {
+    InfoView(titleOn: true)
 }

@@ -10,6 +10,7 @@ enum AppAppearance: String, CaseIterable, Identifiable {
 
 struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
+    @Binding var titleOn: Bool
 
     @State private var notificationsEnabled = true
     @State private var appearance: AppAppearance = .system
@@ -29,8 +30,15 @@ struct SettingsView: View {
                         .foregroundStyle(.secondary)
                 }
 
-                // Section 2: выбор темы и размер текста
+                // Section 2: заголовок списка, тема и размер текста
                 Section("Внешний вид") {
+                    Toggle("Заголовок списка", isOn: $titleOn)
+                    if titleOn {
+                        Text("Navigation title enabled")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+
                     Picker("Тема", selection: $appearance) {
                         ForEach(AppAppearance.allCases) { option in
                             Text(option.rawValue).tag(option)
@@ -51,12 +59,10 @@ struct SettingsView: View {
     }
 }
 
-#Preview("Light") {
-    SettingsView()
-        .preferredColorScheme(.light)
+#Preview("Title on") {
+    SettingsView(titleOn: .constant(true))
 }
 
-#Preview("Dark") {
-    SettingsView()
-        .preferredColorScheme(.dark)
+#Preview("Title off") {
+    SettingsView(titleOn: .constant(false))
 }
