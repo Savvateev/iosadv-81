@@ -1,11 +1,3 @@
-//
-//  AppAppearance.swift
-//  GreatWriter
-//
-//  Created by Pavel Savvateev on 03.11.2026.
-//
-
-
 import SwiftUI
 
 enum AppAppearance: String, CaseIterable, Identifiable {
@@ -17,6 +9,8 @@ enum AppAppearance: String, CaseIterable, Identifiable {
 }
 
 struct SettingsView: View {
+    @Environment(\.colorScheme) var colorScheme
+
     @State private var notificationsEnabled = true
     @State private var appearance: AppAppearance = .system
     @State private var textSize: Double = 16
@@ -24,15 +18,18 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             Form {
-                // Section 1: переключатель и текст
+                // Section 1: состояние цветовой схемы и переключатель
                 Section {
+                    Text(colorScheme == .dark ? "Dark Theme enabled" : "Light Theme enabled")
+                        .font(.headline)
+
                     Toggle("Уведомления", isOn: $notificationsEnabled)
                     Text("Оповещения о новых материалах базы знаний")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
 
-                // Section 2: выбор и ползунок
+                // Section 2: выбор темы и размер текста
                 Section("Внешний вид") {
                     Picker("Тема", selection: $appearance) {
                         ForEach(AppAppearance.allCases) { option in
@@ -54,6 +51,12 @@ struct SettingsView: View {
     }
 }
 
-#Preview {
+#Preview("Light") {
     SettingsView()
+        .preferredColorScheme(.light)
+}
+
+#Preview("Dark") {
+    SettingsView()
+        .preferredColorScheme(.dark)
 }
