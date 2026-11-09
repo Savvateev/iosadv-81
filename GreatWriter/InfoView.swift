@@ -11,6 +11,28 @@ struct InfoView: View {
     var body: some View {
         NavigationStack {
             List {
+                // Экранизации — первыми
+                let films = filteredAdaptations(kb.adaptations)
+                if !films.isEmpty {
+                    Section("Экранизации") {
+                        ForEach(films) { film in
+                            Button {
+                                activeWork = nil
+                                activeFilm = film
+                            } label: {
+                                AdaptationRow(film: film)
+                            }
+                            .buttonStyle(.plain)
+                            .listRowBackground(
+                                activeFilm?.id == film.id
+                                    ? Color.accentColor.opacity(0.15)
+                                    : Color.clear
+                            )
+                        }
+                    }
+                }
+
+                // Произведения по жанрам — ниже
                 ForEach(WorkGenre.allCases) { genre in
                     let items = filtered(kb.works(in: genre))
                     if !items.isEmpty {
@@ -29,26 +51,6 @@ struct InfoView: View {
                                         : Color.clear
                                 )
                             }
-                        }
-                    }
-                }
-
-                let films = filteredAdaptations(kb.adaptations)
-                if !films.isEmpty {
-                    Section("Экранизации") {
-                        ForEach(films) { film in
-                            Button {
-                                activeWork = nil
-                                activeFilm = film
-                            } label: {
-                                AdaptationRow(film: film)
-                            }
-                            .buttonStyle(.plain)
-                            .listRowBackground(
-                                activeFilm?.id == film.id
-                                    ? Color.accentColor.opacity(0.15)
-                                    : Color.clear
-                            )
                         }
                     }
                 }

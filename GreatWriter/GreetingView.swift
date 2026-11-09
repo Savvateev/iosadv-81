@@ -1,10 +1,3 @@
-//
-//  GreetingView.swift
-//  GreatWriter
-//
-//  Created by Pavel Savvateev on 09.11.2026.
-//
-
 
 import SwiftUI
 

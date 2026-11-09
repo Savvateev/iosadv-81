@@ -1,10 +1,3 @@
-//
-//  HelloView.swift
-//  GreatWriter
-//
-//  Created by Pavel Savvateev on 03.11.2026.
-//
-
 
 import SwiftUI
 

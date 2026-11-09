@@ -61,30 +61,17 @@ struct InfoDetails: View {
     }
 
     private var audioSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        Group {
             if player.hasTrack {
-                HStack(spacing: 12) {
-                    Button {
-                        player.toggle()
-                    } label: {
-                        Image(systemName: player.isPlaying ? "pause.circle.fill" : "play.circle.fill")
-                            .font(.system(size: 44))
-                            .scaleEffect(player.isPlaying ? 1.08 : 1.0)
-                            .foregroundStyle(.tint)
-                    }
-                    .buttonStyle(.plain)
-
-                    Text(player.isPlaying ? "Идёт воспроизведение" : "Прослушать")
-                        .foregroundStyle(.secondary)
-                }
+                AudioControlView(player: player)
             } else {
                 Label("Аудио для этого произведения не добавлено", systemImage: "speaker.slash")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
         }
-        .animation(.easeInOut(duration: 0.25), value: player.isPlaying)
     }
+
 
     private func infoBlock(_ label: String, _ value: String) -> some View {
         VStack(alignment: .leading, spacing: 2) {

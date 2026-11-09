@@ -1,10 +1,3 @@
-//
-//  InfoRow.swift
-//  GreatWriter
-//
-//  Created by Pavel Savvateev on 27.10.2026.
-//
-
 
 import SwiftUI
 
