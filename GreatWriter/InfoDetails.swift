@@ -1,16 +1,10 @@
-//
-//  InfoDetails.swift
-//  GreatWriter
-//
-//  Created by Pavel Savvateev on 27.10.2026.
-//
-
-
 import SwiftUI
 
 struct InfoDetails: View {
     let work: Work
     let adaptations: [Adaptation]
+
+    @StateObject private var player = AudioPlayer()
 
     var body: some View {
         ScrollView {
@@ -29,6 +23,8 @@ struct InfoDetails: View {
                 Text(work.genre.rawValue)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
+
+                audioSection
 
                 if let years = work.yearsNote {
                     infoBlock("Годы", years)
@@ -57,8 +53,25 @@ struct InfoDetails: View {
             .padding()
         }
         .navigationTitle(work.title)
+        #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
+        #endif
+        .onAppear { player.load(named: work.resolvedAudioName) }
+        .onDisappear { player.stop() }
     }
+
+    private var audioSection: some View {
+        Group {
+            if player.hasTrack {
+                AudioControlView(player: player)
+            } else {
+                Label("Аудио для этого произведения не добавлено", systemImage: "speaker.slash")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+        }
+    }
+
 
     private func infoBlock(_ label: String, _ value: String) -> some View {
         VStack(alignment: .leading, spacing: 2) {
@@ -77,7 +90,7 @@ struct InfoDetails: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         InfoDetails(work: Work.seed[2], adaptations: [])
     }
 }
