@@ -29,20 +29,22 @@ struct Work: Codable, Identifiable, Hashable {
     var awards: [Award] = []
     var note: String? = nil
     var imageName: String? = nil
+    var audioName: String? = nil
 
     /// Имя ассета: из imageName, иначе по соглашению "work_<id>"
     var resolvedImageName: String { imageName ?? "work_\(id)" }
+    var resolvedAudioName: String { audioName ?? "audio_\(id)" }
 }
 
-struct Adaptation: Codable, Hashable {
+struct Adaptation: Codable, Identifiable, Hashable {
     let year: Int
     let title: String
     let director: String
-    var workId: String? = nil      // ссылка на Work.id, если произведение есть в базе
+    var workId: String? = nil
     var note: String? = nil
-    var imageName: String? = nil   // один постер или кадр
-
-    /// Имя ассета: из imageName, иначе "film_<год>"
+    var imageName: String? = nil   // постер, имя в Assets.xcassets
+    var audioName: String? = nil   // саундтрек, имя mp3 без расширения
+    var id: String { "\(year)-\(title)" }
     var resolvedImageName: String { imageName ?? "film_\(year)" }
 }
 
@@ -102,23 +104,24 @@ extension Work {
 }
 
 
+
 extension Adaptation {
     static let seed: [Adaptation] = [
         Adaptation(year: 1977, title: "Сюда не залетали чайки", director: "Булат Мансуров",
-                   imageName: "chaiki"),
+                   imageName: "chaiki", audioName: "chaiki"),
         Adaptation(year: 1979, title: "Таёжная повесть", director: "Владимир Фетин",
-                   imageName: "tayga"),
+                   imageName: "tayga", audioName: "taiga"),
         Adaptation(year: 1981, title: "Звездопад", director: "Игорь Таланкин",
-                   workId: "zvezdopad", imageName: "film_zvezdopad"),
+                   workId: "zvezdopad", imageName: "zvezdopad", audioName: "zvezda"),
         Adaptation(year: 1983, title: "Дважды рождённый", director: "Аркадий Сиренко",
                    note: "Автор сценария — сам Астафьев",
-                   imageName: "dvajdyi"),
+                   imageName: "dvajdyi", audioName: "rozd"),
         Adaptation(year: 1983, title: "Ненаглядный мой", director: "Артур Войтецкий",
                    note: "Автор сценария — сам Астафьев",
-                   imageName: "my"),
+                   imageName: "my", audioName: "nenaglyad"),
         Adaptation(year: 1986, title: "Где-то гремит война", director: "Артур Войтецкий",
                    note: "Автор сценария — сам Астафьев. Исходная повесть в базу не входит",
-                   imageName: "war"),
+                   imageName: "war", audioName: "war"),
     ]
 }
 

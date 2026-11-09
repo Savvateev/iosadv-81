@@ -30,8 +30,8 @@
 		000000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
-				000000000000000000000010 /* GreatWriter */,
 				000000000000000000000020 /* Products */,
+				000000000000000000000010 /* GreatWriter */,
 			);
 			sourceTree = "<group>";
 		};
